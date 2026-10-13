@@ -80,13 +80,13 @@ function Cart() {
   // Individual Product Checkout (Unlocked at 50 units for this specific product)
   const handleSingleProductCheckout = (item) => {
     if (!currentUser) {
-      alert('⚠️ Checkout karne ke liye pehle login karein!');
+      alert('⚠️ Please sign in first to proceed with checkout!');
       navigate('/my-account');
       return;
     }
     const itemQty = Number(item.quantity) || 0;
     if (itemQty < 50) {
-      alert(`⚠️ Is product ka checkout unlock karne ke liye kam se kam 50 units hone chahiye. Abhi ${itemQty} units hain.`);
+      alert(`⚠️ A minimum of 50 units is required to checkout this item. Currently in cart: ${itemQty} units.`);
       return;
     }
     navigate('/checkout', { state: { singleItemCheckout: true, checkoutItem: item } });
@@ -95,12 +95,12 @@ function Cart() {
   // Global Cart Proceed To Checkout (All items combined)
   const handleProceedToCheckout = () => {
     if (!currentUser) {
-      alert('⚠️ Checkout karne ke liye pehle login karein!');
+      alert('⚠️ Please sign in first to proceed with checkout!');
       navigate('/my-account');
       return;
     }
     if (totalQuantity < 50) {
-      alert(`⚠️ Bulk order rule: Kam se kam 50 items cart me hone chahiye. Abhi ${totalQuantity} items hain.`);
+      alert(`⚠️ Bulk Order Requirement: A minimum of 50 total units is required. Currently in cart: ${totalQuantity} units.`);
       return;
     }
     navigate('/checkout');
@@ -119,7 +119,7 @@ function Cart() {
           </div>
           <h2 className="text-2xl font-black text-gray-900">Please Sign In First</h2>
           <p className="text-gray-600 text-xs">
-            Cart aur products aapke Google account ke sath secure save hote hain.
+            Your cart and selected hampers are securely linked to your account.
           </p>
           <button
             onClick={() => navigate('/my-account')}
@@ -145,10 +145,10 @@ function Cart() {
           </div>
           <h2 className="text-2xl font-black text-gray-800">Your Cart is Empty</h2>
           <p className="text-gray-500 text-xs">
-            Hello {currentUser.name || 'Customer'}, aapki is ID par filhal koi hamper add nahi hai.
+            Hello {currentUser.name || 'Customer'}, you do not have any hampers added to your cart yet.
           </p>
           <button
-            onClick={() => navigate('/all-hampers')}
+            onClick={() => navigate('/products')}
             className="px-6 py-2.5 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded-xl shadow-sm transition-all cursor-pointer"
           >
             Explore Hampers 🎁
@@ -171,7 +171,7 @@ function Cart() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Shopping Cart</h1>
           <span className="text-xs bg-amber-100 text-amber-900 font-bold px-3 py-1 rounded-full border border-amber-200 self-start sm:self-auto">
-            User: {currentUser.email}
+            Account: {currentUser.email}
           </span>
         </div>
 
@@ -224,7 +224,7 @@ function Cart() {
                     ₹{item.price * itemQty}
                   </span>
 
-                  {/* Individual Product Checkout Button (Enabled only when >= 50 units) */}
+                  {/* Individual Product Checkout Button */}
                   <button
                     type="button"
                     disabled={!isItemCheckoutReady}
@@ -236,8 +236,8 @@ function Cart() {
                     }`}
                     title={
                       isItemCheckoutReady 
-                        ? 'Is hamper ka single checkout karein' 
-                        : `Kam se kam 50 units chahiye (aur ${50 - itemQty} add karein)`
+                        ? 'Checkout this individual hamper' 
+                        : `Minimum 50 units required (add ${50 - itemQty} more)`
                     }
                   >
                     {isItemCheckoutReady ? 'Checkout Item 🛍️' : `Checkout (${itemQty}/50)`}
@@ -258,7 +258,7 @@ function Cart() {
 
           {totalQuantity < 50 && (
             <div className="mt-6 p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl text-xs font-medium">
-              ⚠️ Bulk Order Rule: Checkout unlock karne ke liye kam se kam <strong>50 total items</strong> required hain. Abhi is account par <strong>{totalQuantity}</strong> items hain. Individual item checkout ke liye bhi us item ke 50 units hone chahiye.
+              ⚠️ <strong>Bulk Order Policy:</strong> A minimum order quantity of <strong>50 total items</strong> is required to proceed to checkout. You currently have <strong>{totalQuantity}</strong> items in your cart. Individual item checkout also requires a minimum of 50 units for that specific product.
             </div>
           )}
 
@@ -271,7 +271,7 @@ function Cart() {
 
             <div className="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-between sm:justify-end">
               <div>
-                <span className="text-sm font-bold text-gray-700">Total: </span>
+                <span className="text-sm font-bold text-gray-700">Total Amount: </span>
                 <span className="text-xl sm:text-2xl font-black text-rose-600">₹{totalAmount}</span>
               </div>
 
