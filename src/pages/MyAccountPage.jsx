@@ -16,7 +16,6 @@ export default function MyAccountPage() {
     joinedDate: 'October 2026'
   });
 
-  // Check saved session in LocalStorage
   useEffect(() => {
     const saved = localStorage.getItem('handyUser');
     if (saved) {
@@ -34,7 +33,6 @@ export default function MyAccountPage() {
     }
   }, []);
 
-  // Google OAuth Success Handler
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       setGoogleLoading(true);
@@ -48,7 +46,6 @@ export default function MyAccountPage() {
         joinedDate: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
       };
 
-      // Cart transfer to user specific key on login
       const targetUserKey = `handy_cart_${decoded.email}`;
       try {
         const guestCart = localStorage.getItem('cart');
@@ -59,7 +56,6 @@ export default function MyAccountPage() {
         console.error('Cart transfer error:', cErr);
       }
 
-      // Sync user data with MongoDB Backend
       try {
         const res = await fetch('https://handy-hampers.onrender.com/api/auth/google', {
           method: 'POST',
@@ -113,9 +109,9 @@ export default function MyAccountPage() {
       </div>
 
       <div className="py-6 md:py-16 px-4 lg:px-10">
-        <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
+        <div className="max-w-4xl mx-auto space-y-8">
           
-          {/* ================= 1. AUTH HEADER: LOGIN CARD YA LOGGED IN PROFILE ================= */}
+          {/* ================= 1. AUTH / PROFILE SECTION ================= */}
           {!isLoggedIn ? (
             <div className="bg-white rounded-3xl p-8 md:p-10 border border-stone-200 shadow-sm text-center max-w-xl mx-auto space-y-5">
               <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-3xl mx-auto shadow-inner border border-amber-200">
@@ -125,11 +121,10 @@ export default function MyAccountPage() {
               <div className="space-y-1">
                 <h2 className="text-2xl font-black text-[#2C1A11]">Welcome to Handy Hampers</h2>
                 <p className="text-xs text-stone-500 max-w-md mx-auto leading-relaxed">
-                  Apne orders track karne, wishlist save karne aur profile manage karne ke liye sign in karein.
+                  Apne orders track karne, wishlist save karne aur profile manage karne ke liye Google se login karein.
                 </p>
               </div>
 
-              {/* Google One-Tap Login Button */}
               <div className="pt-1 flex flex-col items-center justify-center">
                 {googleLoading ? (
                   <div className="text-xs font-bold text-amber-700 animate-pulse py-2">
@@ -150,7 +145,7 @@ export default function MyAccountPage() {
               </div>
 
               <div className="pt-3 border-t border-stone-100 text-[11px] text-stone-400">
-                🔒 100% Secure authentication via Google
+                🔒 Safe & 100% verified authentication via Google
               </div>
             </div>
           ) : (
@@ -201,10 +196,10 @@ export default function MyAccountPage() {
             </div>
           )}
 
-          {/* ================= 2. QUICK NAVIGATION TILES (Always Visible) ================= */}
-          <div className="space-y-2">
+          {/* ================= 2. ORDER & SHOPPING BUTTONS (Always Visible) ================= */}
+          <div className="space-y-3">
             <h3 className="text-xs font-black uppercase tracking-wider text-stone-500 px-1">
-              Quick Navigation & Orders
+              Orders & Shopping
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <Link
@@ -261,79 +256,64 @@ export default function MyAccountPage() {
             </div>
           </div>
 
-          {/* ================= 3. STORE SERVICES, ABOUT & POLICIES (Always Visible) ================= */}
-          <div className="bg-white rounded-3xl p-5 border border-stone-200 shadow-2xs space-y-1">
-            <h3 className="text-xs font-black uppercase tracking-wider text-stone-400 px-2 pb-2">
-              Store Info & Quick Links
+          {/* ================= 3. DISCOVER & SUPPORT BUTTONS (Always Visible) ================= */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-black uppercase tracking-wider text-stone-500 px-1">
+              Store, Help & Information
             </h3>
-
-            {/* About Page Link */}
-            <Link
-              to="/about"
-              className="flex items-center justify-between p-3 rounded-xl hover:bg-stone-50 transition-colors group"
-            >
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 flex items-center justify-center text-sm">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <Link
+                to="/about"
+                className="bg-white p-4 rounded-2xl border border-stone-200/80 shadow-2xs hover:shadow-md transition-all flex items-center gap-3 group"
+              >
+                <span className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
                   ℹ️
                 </span>
                 <div>
-                  <span className="text-xs font-bold text-stone-800 block">About Handy Hampers</span>
-                  <span className="text-[10px] text-stone-500">Hamper craftsmanship, story & legacy</span>
+                  <h4 className="text-xs font-black text-stone-900 leading-tight">About Us</h4>
+                  <p className="text-[10px] text-stone-500 mt-0.5">Craftsmanship story</p>
                 </div>
-              </div>
-              <span className="text-xs text-stone-400 group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
+              </Link>
 
-            {/* Contact Page Link */}
-            <Link
-              to="/contact"
-              className="flex items-center justify-between p-3 rounded-xl hover:bg-stone-50 transition-colors group"
-            >
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center text-sm">
+              <Link
+                to="/contact"
+                className="bg-white p-4 rounded-2xl border border-stone-200/80 shadow-2xs hover:shadow-md transition-all flex items-center gap-3 group"
+              >
+                <span className="w-10 h-10 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
                   📞
                 </span>
                 <div>
-                  <span className="text-xs font-bold text-stone-800 block">Contact & Bulk Inquiries</span>
-                  <span className="text-[10px] text-stone-500">Reach customer care directly</span>
+                  <h4 className="text-xs font-black text-stone-900 leading-tight">Contact Us</h4>
+                  <p className="text-[10px] text-stone-500 mt-0.5">Support & Inquiries</p>
                 </div>
-              </div>
-              <span className="text-xs text-stone-400 group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
+              </Link>
 
-            {/* Blog Page Link */}
-            <Link
-              to="/blog"
-              className="flex items-center justify-between p-3 rounded-xl hover:bg-stone-50 transition-colors group"
-            >
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center text-sm">
+              <Link
+                to="/blog"
+                className="bg-white p-4 rounded-2xl border border-stone-200/80 shadow-2xs hover:shadow-md transition-all flex items-center gap-3 group"
+              >
+                <span className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
                   ✍️
                 </span>
                 <div>
-                  <span className="text-xs font-bold text-stone-800 block">Gifting Blog & Journal</span>
-                  <span className="text-[10px] text-stone-500">Inspiration, trends & gifting tips</span>
+                  <h4 className="text-xs font-black text-stone-900 leading-tight">Our Blog</h4>
+                  <p className="text-[10px] text-stone-500 mt-0.5">Articles & Trends</p>
                 </div>
-              </div>
-              <span className="text-xs text-stone-400 group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
+              </Link>
 
-            {/* Refund Policy Link */}
-            <Link
-              to="/refund-policy"
-              className="flex items-center justify-between p-3 rounded-xl hover:bg-stone-50 transition-colors group"
-            >
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-sm">
+              <Link
+                to="/refund-policy"
+                className="bg-white p-4 rounded-2xl border border-stone-200/80 shadow-2xs hover:shadow-md transition-all flex items-center gap-3 group"
+              >
+                <span className="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
                   🔄
                 </span>
                 <div>
-                  <span className="text-xs font-bold text-stone-800 block">Cancellation & Refund Policy</span>
-                  <span className="text-[10px] text-stone-500">Transit replacement & return rules</span>
+                  <h4 className="text-xs font-black text-stone-900 leading-tight">Refund Policy</h4>
+                  <p className="text-[10px] text-stone-500 mt-0.5">Return & Exchange</p>
                 </div>
-              </div>
-              <span className="text-xs text-stone-400 group-hover:translate-x-1 transition-transform">➔</span>
-            </Link>
+              </Link>
+            </div>
           </div>
 
         </div>
