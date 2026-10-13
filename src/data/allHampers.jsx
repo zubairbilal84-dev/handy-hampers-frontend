@@ -382,12 +382,13 @@ export default function AllHampers({ data = allHampersData }) {
   const currentCatKey = queryParams.get('cat') || 'all';
   const isAllHampersPage = (data?.id === 'all' || !data?.id) && currentCatKey === 'all';
 
+  // Shipping Truck Text Animation State
   const shippingLines = [
-    "PAN India Safe Delivery",
-    "Express 2-Hour Delivery Available",
-    "100% Breakage-Free Insured Gifting",
-    "Luxury Handcrafted Hampers",
-    "Free Gift Wrapping On All Orders"
+    "PAN India Insured Delivery",
+    "Express Dispatch Across India",
+    "100% Breakage-Free Safe Transit",
+    "Handcrafted Luxury Hampers",
+    "Complimentary Premium Gift Packaging"
   ];
 
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
