@@ -26,14 +26,6 @@ import Hatsstyle from './pages/styles/Hatsstyle';
 import Jhulastyle from './pages/styles/Jhulastyle';
 import Ringstyle from './pages/styles/Ringstyle';
 
-// Category Pages Imports
-import GiftHampers from './pages/GiftHampers';
-import MetalHampers from './pages/MetalHampers';
-import FestivalHampers from './pages/FestivalHampers';
-import WeddingHampers from './pages/WeddingHampers';
-import OccasionsHampers from './pages/OccasionsHampers';
-import CorporateHampers from './pages/CorporateHampers';
-
 // Admin Imports
 import AdminLayout from './layouts/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -75,14 +67,6 @@ function App() {
                   <Route path="/my-orders" element={<MyOrders />} />
                   <Route path="/my-account" element={<MyAccountPage />} />
                   
-                  {/* Category Pages with Banners */}
-                  <Route path="/gift" element={<GiftHampers />} />
-                  <Route path="/metal" element={<MetalHampers />} />
-                  <Route path="/festival" element={<FestivalHampers />} />
-                  <Route path="/wedding" element={<WeddingHampers />} />
-                  <Route path="/occasions" element={<OccasionsHampers />} />
-                  <Route path="/corporate" element={<CorporateHampers />} />
-
                   {/* Store Auxiliary Pages */}
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blogs" element={<Blog />} />
@@ -101,7 +85,7 @@ function App() {
               </div>
               <Footer />
               
-              {/* Mobile Fixed Bottom Widget (Home, Shop, My Account) */}
+              {/* Mobile Fixed Bottom Widget */}
               <MobileBottomNav />
             </div>
           }
@@ -118,7 +102,7 @@ function App() {
           <Route path="blogs" element={<AdminBlogs />} />
           <Route path="categories" element={<AdminCategories />} />
 
-          {/* All 6 Dedicated Category Banners Routes */}
+          {/* All Dedicated Category Banners Routes */}
           <Route path="gift-banners" element={<GiftBanners />} />
           <Route path="metal-banners" element={<MetalBanners />} />
           <Route path="festival-banners" element={<FestivalBanners />} />
