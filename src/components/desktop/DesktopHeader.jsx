@@ -94,6 +94,7 @@ export default function DesktopHeader() {
   };
 
   // Shipping Truck Text Animation State
+  // Shipping Truck Text Animation State
   const shippingLines = [
     "PAN India Safe Delivery",
     "Express 2-Hour Delivery Available",
