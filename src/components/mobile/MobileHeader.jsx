@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import logoIcon from '../../assets/logo.png';
@@ -10,7 +10,7 @@ import GiftBlack from '../../assets/icons/GiftBlack.png';
 import MetalColor from '../../assets/icons/MetalColor.png';
 import MetalBlack from '../../assets/icons/MetalBlack.png';
 
-import CorporateColor from '../../assets/icons/Corporotecolor.png'; // File name exactly as in explorer
+import CorporateColor from '../../assets/icons/Corporotecolor.png';
 import CorporateBlack from '../../assets/icons/CorporateBlack.png';
 
 import FestivalColor from '../../assets/icons/FestivalColor.png';
@@ -91,13 +91,15 @@ export default function MobileHeader() {
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
 
+  // Active Category item reference for auto-scroll
+  const activeTabRef = useRef(null);
+
   useEffect(() => {
     const syncUserStats = () => {
       try {
         const userStr = localStorage.getItem('handyUser');
         const currentUser = userStr ? JSON.parse(userStr) : null;
 
-        // 1. User specific Cart Read
         const userCartKey = currentUser ? `handy_cart_${currentUser.email}` : 'handy_cart_guest';
         let cItems = [];
         const uSavedCart = currentUser ? localStorage.getItem(userCartKey) : null;
@@ -110,7 +112,6 @@ export default function MobileHeader() {
           : 0;
         setTotalQuantity(qty);
 
-        // 2. User specific Wishlist Read
         const userWishKey = currentUser ? `handy_wishlist_${currentUser.email}` : 'handy_wishlist_guest';
         let wItems = [];
         const uSavedWish = currentUser ? localStorage.getItem(userWishKey) : null;
@@ -142,6 +143,17 @@ export default function MobileHeader() {
   const topGradient = activeData?.topBgGradient || 'from-amber-100/80 via-yellow-50 to-white';
   const searchPlaceholderText = activeData?.searchPlaceholder || 'hampers, chocolates...';
 
+  // Selected item ko view ke center me auto-scroll karne ke liye effect
+  useEffect(() => {
+    if (activeTabRef.current) {
+      activeTabRef.current.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest'
+      });
+    }
+  }, [activeCatKey]);
+
   // Smooth Scroll Listener
   useEffect(() => {
     const handleScroll = () => {
@@ -159,7 +171,7 @@ export default function MobileHeader() {
     <div className={`sticky top-0 z-50 transition-all duration-300 ease-in-out pb-1 rounded-b-3xl ${
       isScrolled 
         ? 'bg-white/90 backdrop-blur-[2px] shadow-sm border-b border-amber-900/10' 
-        : `bg-gradient-to-b ${topGradient} shadow-xs`
+        : `bg-gradient-to-b \${topGradient} shadow-xs`
     }`}>
       
       {/* TOP BAR: LOGO & ICONS AREA */}
@@ -167,7 +179,7 @@ export default function MobileHeader() {
         isScrolled ? 'justify-center pt-2 pb-1 min-h-[44px]' : 'justify-between pt-3 pb-2 min-h-[60px]'
       }`}>
         
-        {/* LOGO (Gentle Swing Effect) */}
+        {/* LOGO */}
         <div className={`transition-all duration-300 ease-out z-20 ${
           isScrolled 
             ? 'flex justify-center w-full' 
@@ -274,11 +286,11 @@ export default function MobileHeader() {
         </div>
       </div>
 
-      {/* CATEGORY ICON MENU WITH ACTIVE (COLOR) / INACTIVE (BLACK) ICONS */}
+      {/* CATEGORY ICON MENU WITH AUTO-CENTER SCROLL */}
       <div className={`transition-all duration-300 overflow-hidden ${
         isScrolled 
           ? 'max-h-0 opacity-0 pointer-events-none py-0' 
-          : 'max-h-28 opacity-100 flex overflow-x-auto no-scrollbar gap-5 px-4 pt-1 items-end'
+          : 'max-h-28 opacity-100 flex overflow-x-auto no-scrollbar gap-5 px-4 pt-1 items-end scroll-smooth'
       }`}>
         {categoryNavItems.map((item) => {
           const isActive = activeCatKey === item.key;
@@ -288,6 +300,7 @@ export default function MobileHeader() {
           return (
             <Link 
               key={item.key}
+              ref={isActive ? activeTabRef : null}
               to={targetUrl}
               className="flex flex-col items-center min-w-[70px] cursor-pointer relative pb-2 transition-all duration-300 shrink-0"
             >

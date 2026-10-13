@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import DesktopHeader from '../components/desktop/DesktopHeader';
+import logoImg from '../assets/logo.png';
 
 export default function MyAccountPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -81,14 +82,14 @@ export default function MyAccountPage() {
       window.dispatchEvent(new Event('storage'));
     } catch (err) {
       console.error('Google login error:', err);
-      alert('Google login me error aaya, kripya dobara try karein!');
+      alert('Failed to sign in with Google. Please try again!');
     } finally {
       setGoogleLoading(false);
     }
   };
 
   const handleLogout = () => {
-    if (window.confirm('Kya aap logout karna chahte hain?')) {
+    if (window.confirm('Are you sure you want to log out?')) {
       localStorage.removeItem('handyUser');
       setIsLoggedIn(false);
       setUserProfile({
@@ -114,14 +115,18 @@ export default function MyAccountPage() {
           {/* ================= 1. AUTH / PROFILE SECTION ================= */}
           {!isLoggedIn ? (
             <div className="bg-white rounded-3xl p-8 md:p-10 border border-stone-200 shadow-sm text-center max-w-xl mx-auto space-y-5">
-              <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-3xl mx-auto shadow-inner border border-amber-200">
-                🎁
+              <div className="w-20 h-20 rounded-2xl bg-amber-50/50 flex items-center justify-center mx-auto shadow-inner border border-amber-200/60 p-2.5">
+                <img
+                  src={logoImg}
+                  alt="Handy Hampers"
+                  className="w-full h-full object-contain"
+                />
               </div>
               
               <div className="space-y-1">
                 <h2 className="text-2xl font-black text-[#2C1A11]">Welcome to Handy Hampers</h2>
                 <p className="text-xs text-stone-500 max-w-md mx-auto leading-relaxed">
-                  Apne orders track karne, wishlist save karne aur profile manage karne ke liye Google se login karein.
+                  Sign in with Google to track your orders, manage your wishlist, and access your profile.
                 </p>
               </div>
 
@@ -224,7 +229,7 @@ export default function MyAccountPage() {
                 </span>
                 <div>
                   <h4 className="text-xs font-black text-stone-900 leading-tight">Live Tracking</h4>
-                  <p className="text-[10px] text-stone-500 mt-0.5">Realtime order route</p>
+                  <p className="text-[10px] text-stone-500 mt-0.5">Real-time order route</p>
                 </div>
               </Link>
 
