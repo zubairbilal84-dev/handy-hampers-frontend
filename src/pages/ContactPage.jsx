@@ -54,7 +54,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-gray-400 uppercase">Call / WhatsApp</p>
-                    <p className="text-sm font-semibold text-gray-800">+91 98765 43210</p>
+                    <p className="text-sm font-semibold text-gray-800">+91 9837874676</p>
                   </div>
                 </div>
               </div>
